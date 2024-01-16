@@ -1,0 +1,196 @@
+<!-- voter_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voter Dashboard </title>
+  <!-- Include Bootstrap CSS from a CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Include custom fonts from Google Fonts -->
+  
+  
+  <style>
+    /* Add styling for flash messages */
+    .flash-messages {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 1000;
+        }
+    
+        .flash-message {
+          width: 100%;
+          text-align: center;
+          padding: 10px;
+          margin-bottom: 0;
+        }
+    
+        .flash-message.error {
+          background-color: #ff5555; /* Red color */
+          color: #fff; /* White text */
+        }
+    
+    form {
+        max-width: 400px;
+        margin: auto;
+        margin-top: 100px;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for transparency */
+        border: 1px solid #000; /* Add a border for better visibility */
+        border-radius: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #fff; /* Set label text color to white */
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 20px; /* Rounded corners for input fields */
+    }
+    .fancy-font {
+        font-family: 'Pacifico', cursive; /* Use custom font for "Musique" */
+        font-size: 4rem; /* Increased font size for Musique */
+        color: #c2baba; /* Set the text color to black */
+        margin-bottom: 100px; /* Slightly push it to the top */
+        position: absolute;
+        top: 15%; /* Position the top of the element at the vertical center of the container */
+        left: 50%; /* Position the left of the element at the horizontal center of the container */
+        transform: translate(-50%, -50%);
+        
+    }
+
+    button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 20px; /* Rounded corners for the button */
+    }
+    .navbar-brand {
+      font-family: 'Pacifico', cursive; /* Apply Pacifico font */
+    }
+</style>
+
+  
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            Voting Machine
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <!-- Your existing navbar items go here -->
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('auth.voter_dashboard') }}"></a>
+              </li>
+                <!-- Add the "Statistics" button -->
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+              </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+        <div class="alert {% if category == 'error' %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+  
+
+<div class="container">
+  {% block content %} 
+  {% endblock %}
+</div>
+
+
+<h1 class="fancy-font">Voter Login</h1>
+
+<form method="post" action="{{ url_for('auth.thankyou',voterid=voter.id) }}">
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="241" checked>
+        <label class="form-check-label" for="exampleRadios1">
+           Party A
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="342">
+        <label class="form-check-label" for="exampleRadios2">
+            Party B
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="914">
+        <label class="form-check-label" for="exampleRadios3">
+            Party C
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="493">
+        <label class="form-check-label" for="exampleRadios4">
+            Party D
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Vote</button>
+</form>
+
+<!-- Include Bootstrap JS and jQuery from a CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

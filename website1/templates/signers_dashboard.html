@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voter Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Your existing navigation bar code -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                Voting Machine
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Your existing navbar items go here -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.signers_dashboard') }}"></a>
+                    </li>
+                    <!-- Add the "Statistics" button -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h2>Signer's Dashboard</h2>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Bootstrap Bordered Table -->
+        <table class="table table-bordered border-primary">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Aadhar ID</th>
+                    <th>Voter ID</th>
+                    <th>Blinded Message</th>
+                    <th>Action</th> <!-- Added a header for the action column -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Use Jinja to loop through the voter data and display in rows -->
+                {% for voter in voters_without_roles %}
+                    <tr>
+                        <td>{{ voter.id }}</td>
+                        <td>{{ voter.name }}</td>
+                        <td>{{ voter.aadhar_id }}</td>
+                        <td>{{ voter.voter_id }}</td>
+                        <td>{{ voter.blinded_msg }}</td>
+
+                        <!-- Added the missing <td> for the action column -->
+                        <td>
+                            <form method="post" action="{{ url_for('auth.send_to_verifier', voter_id=voter.id) }}">
+                                <input type="hidden" name="send_to_verifier" value="true">
+                                <button type="submit" class="btn btn-primary">Sign and Send to Verifier</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Add this button code after the table -->
+        <div class="d-flex justify-content-end mt-3">
+            <form method="post" action="{{ url_for('auth.get_blinded_messages') }}">
+                <button type="submit" class="btn btn-success">Get Blinded Messages</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

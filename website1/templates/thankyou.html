@@ -1,0 +1,20 @@
+<!-- thankyou.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Thank You for Voting</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Thank you for voting</h5>
+                <a href="{{ url_for('auth.logout') }}" class="btn btn-primary">Logout</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
